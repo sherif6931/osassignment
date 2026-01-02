@@ -5,8 +5,6 @@
 
 void freenot(Handler hand)
 {
-	struct task_struct *tsk;
-
 	rcu_read_lock();
 
 	/* contains a macro whom I hate, and love */
