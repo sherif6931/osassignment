@@ -16,6 +16,7 @@ if make; then
         sudo dmesg -w
     else
         echo "❌ Mod didn't load for some reason."
+	exit 1
     fi
 else
     echo "❌ Compilation failed."
