@@ -1,6 +1,5 @@
 #include "yelp.h"
 #include<linux/sched.h>
-#include<linux/sched/signal.h>
 #include<linux/kernel.h>
 
 void freenot(Handler hand)
@@ -30,12 +29,13 @@ void freenot_kids(Handler hand, struct task_struct *tsk)
 
 void check_ancestry(struct task_struct *tsk) {
 	if (!tsk) return;
+	
+	pid_t p = tsk->pid;
+	pr_info("Task PID:\t\n%d\t\n", p);
 
-	pr_info("Task PID:\t\n%d\t\n", tsk->pid);
-
-	if (is_child(tsk->pid)) { 
+	if (is_child(p)) { 
         	pr_info("\t\nThis is the current process.\n\n");
-    	} else if (is_parent(tsk->pid)) {
+    	} else if (is_parent(p)) {
         	pr_info("\t\nThis is the parent process.\n\n");
     	} else {
         	pr_info("\t\nThis is the sibling process.\n\n");
@@ -44,14 +44,10 @@ void check_ancestry(struct task_struct *tsk) {
 
 void show_desc_info(struct task_struct *tsk)
 {
-	for_each_process(tsk) {
-		/* displays in the same format as spec sheet */
-
-		pr_info("PROCESS NAME:\t\n%s\t\n", tsk->comm); 
-		pr_info("PID:\t\n%d\t\n", tsk->pid); 
-		pr_info("STATE:\t\n%d\t\n", (int)tsk->__state); 
-		pr_info("PRIORITY:\t\n%d\t\n", tsk->prio); 
-		pr_info("STATIC-PRIORITY:\t\n%d\t\n", tsk->static_prio); 
-		pr_info("NORMAL-PRIORITY:\t\n%d\t\n", tsk->normal_prio);	
-	}
-} 
+	pr_info("PROCESS NAME:\t\n%s\t\n", tsk->comm); 
+	pr_info("PID:\t\n%d\t\n", tsk->pid); 
+	pr_info("STATE:\t\n%d\t\n", (int)tsk->__state); 
+	pr_info("PRIORITY:\t\n%d\t\n", tsk->prio); 
+	pr_info("STATIC-PRIORITY:\t\n%d\t\n", tsk->static_prio); 
+	pr_info("NORMAL-PRIORITY:\t\n%d\t\n", tsk->normal_prio);	
+}

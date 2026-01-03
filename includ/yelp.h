@@ -4,6 +4,7 @@
 #include<linux/compiler.h>
 #include<linux/types.h>
 #include<linux/sched.h>
+#include<linux/sched/signal.h>
 
 // I, henceforth, declare to you, forward-ly.
 struct task_struct;
@@ -30,7 +31,13 @@ void freenot(Handler);
 
 void freenot_kids(Handler, struct task_struct*);
 
-#define show_task() freenot(show_desc_info)
-#define show_ancestry() check_ancestry(current)
+#define show_task() 	 freenot(show_desc_info)
+#define show_all_tasks() ({				   \
+		struct task_struct *tsk;		   \
+		for_each_process(tsk) { 		   \
+			freenot_kids(show_desc_info, tsk); \
+		}					   \
+})
+#define show_ancestry()  check_ancestry(current)
 
 #endif /* _YELP_H_ */

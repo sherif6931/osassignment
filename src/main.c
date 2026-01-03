@@ -3,11 +3,12 @@
 #include <linux/kernel.h>
 #include <linux/init.h>
 
+
 static int __init main_init(void) {
     
     show_ancestry();
 
-    show_task(); 
+    show_all_tasks(); 
     
     return 0;
 }
